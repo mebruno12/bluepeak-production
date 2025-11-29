@@ -1,0 +1,337 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum UserRole {
+  ANALYST
+  PARTNER
+  ADMIN
+}
+
+enum DealStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  REJECTED
+  ARCHIVED
+}
+
+enum TaxRegime {
+  EMPRESA
+  PARTICULAR
+}
+
+enum FinalidadeHabitacao {
+  PROPRIA
+  SECUNDARIA
+  INVESTIMENTO
+  EMPRESA
+  ISENTO
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         UserRole @default(ANALYST)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  deals       Deal[]
+  valuations  Valuation[]
+  comments    Comment[]
+}
+
+model Deal {
+  id         String     @id @default(cuid())
+  title      String
+  address    String?
+  city       String?
+  listingUrl String?
+  notes      String?    @db.Text
+  status     DealStatus @default(DRAFT)
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Scenario 1 - Basic
+  estimatedSalePrice1 Float?
+  purchasePrice1      Float?
+  vpt1                Float?
+  finalidadeHabitacao1 FinalidadeHabitacao?
+  imt1                Float?
+  is1                 Float?
+  escritura1          Float?
+  registos1           Float?
+  cpcvCompra1         Float?
+  totalAcquisition1   Float?
+
+  // Scenario 2 - Basic
+  estimatedSalePrice2 Float?
+  purchasePrice2      Float?
+  vpt2                Float?
+  finalidadeHabitacao2 FinalidadeHabitacao?
+  imt2                Float?
+  is2                 Float?
+  escritura2          Float?
+  registos2           Float?
+  cpcvCompra2         Float?
+  totalAcquisition2   Float?
+
+  // Financing Purchase (Scenario 1)
+  percentFinancedPurchase1     Float?
+  loanAmountPurchase1          Float?
+  termYearsPurchase1           Float?
+  interestRatePurchase1        Float?
+  commissionDossierPurchase1   Float?
+  commissionAvaliacaoPurchase1 Float?
+  commissionFormalizationPurchase1 Float?
+  stampDutyRateLoanPurchase1   Float?
+  stampDutyLoanPurchase1       Float?
+  mortgageRegistryPurchase1    Float?
+  monthlyPaymentPurchase1      Float?
+  totalFinancingCostPurchase1  Float?
+
+  // Financing Purchase (Scenario 2)
+  percentFinancedPurchase2     Float?
+  loanAmountPurchase2          Float?
+  termYearsPurchase2           Float?
+  interestRatePurchase2        Float?
+  commissionDossierPurchase2   Float?
+  commissionAvaliacaoPurchase2 Float?
+  commissionFormalizationPurchase2 Float?
+  stampDutyRateLoanPurchase2   Float?
+  stampDutyLoanPurchase2       Float?
+  mortgageRegistryPurchase2    Float?
+  monthlyPaymentPurchase2      Float?
+  totalFinancingCostPurchase2  Float?
+
+  // Works / Renovation (Scenario 1)
+  budgetWorks1             Float?
+  budgetWorksM21           Float?
+  budgetWorksWithVAT1      Float?
+  percentFinancedWorks1    Float?
+  loanAmountWorks1         Float?
+  termYearsWorks1          Float?
+  interestRateWorks1       Float?
+  commissionDossierWorks1  Float?
+  commissionFormalizationWorks1 Float?
+  stampDutyRateLoanWorks1  Float?
+  stampDutyLoanWorks1      Float?
+  mortgageRegistryWorks1   Float?
+  tranchesWorks1           Float?
+  trancheCommissionWorks1  Float?
+  monthlyPaymentWorks1     Float?
+  totalFinancingCostWorks1 Float?
+
+  // Works / Renovation (Scenario 2)
+  budgetWorks2             Float?
+  budgetWorksM22           Float?
+  budgetWorksWithVAT2      Float?
+  percentFinancedWorks2    Float?
+  loanAmountWorks2         Float?
+  termYearsWorks2          Float?
+  interestRateWorks2       Float?
+  commissionDossierWorks2  Float?
+  commissionFormalizationWorks2 Float?
+  stampDutyRateLoanWorks2  Float?
+  stampDutyLoanWorks2      Float?
+  mortgageRegistryWorks2   Float?
+  tranchesWorks2           Float?
+  trancheCommissionWorks2  Float?
+  monthlyPaymentWorks2     Float?
+  totalFinancingCostWorks2 Float?
+
+  // Common fields for works
+  imovelARU           Boolean?
+  useM2Method         Boolean?
+  areaBrutaM2         Float?
+  custoM2Scenario1    Float?
+  custoM2Scenario2    Float?
+
+  // Holding Costs (Scenario 1)
+  holdingMonths1          Float?
+  insurancePerMonth1      Float?
+  condoPerMonth1          Float?
+  electricityPerMonth1    Float?
+  waterPerMonth1          Float?
+  interestPropertyPerMonth1 Float?
+  interestWorksPerMonth1  Float?
+  totalHoldingCosts1      Float?
+
+  // Holding Costs (Scenario 2)
+  holdingMonths2          Float?
+  insurancePerMonth2      Float?
+  condoPerMonth2          Float?
+  electricityPerMonth2    Float?
+  waterPerMonth2          Float?
+  interestPropertyPerMonth2 Float?
+  interestWorksPerMonth2  Float?
+  totalHoldingCosts2      Float?
+
+  // Sale Costs (Scenario 1)
+  agencyCommissionRate1            Float?
+  agencyCommissionWithVAT1         Float?
+  cpcvVenda1                       Float?
+  earlyRepaymentPenaltyRateProperty1 Float?
+  earlyRepaymentPenaltyValueProperty1 Float?
+  earlyRepaymentPenaltyRateWorks1  Float?
+  earlyRepaymentPenaltyValueWorks1 Float?
+  totalSaleCosts1                  Float?
+
+  // Sale Costs (Scenario 2)
+  agencyCommissionRate2            Float?
+  agencyCommissionWithVAT2         Float?
+  cpcvVenda2                       Float?
+  earlyRepaymentPenaltyRateProperty2 Float?
+  earlyRepaymentPenaltyValueProperty2 Float?
+  earlyRepaymentPenaltyRateWorks2  Float?
+  earlyRepaymentPenaltyValueWorks2 Float?
+  totalSaleCosts2                  Float?
+
+  // Results (Scenario 1)
+  grossProfitScenario1      Float?
+  taxRegimeScenario1        TaxRegime?
+  ircRateScenario1          Float?
+  irsRateScenario1          Float?
+  totalTaxesScenario1       Float?
+  netProfitScenario1        Float?
+  roiScenario1              Float?
+  cashOnCashRoiScenario1    Float?
+  annualizedRoiScenario1    Float?
+  cashNeededScenario1       Float?
+
+  // Results (Scenario 2)
+  grossProfitScenario2      Float?
+  taxRegimeScenario2        TaxRegime?
+  ircRateScenario2          Float?
+  irsRateScenario2          Float?
+  totalTaxesScenario2       Float?
+  netProfitScenario2        Float?
+  roiScenario2              Float?
+  cashOnCashRoiScenario2    Float?
+  annualizedRoiScenario2    Float?
+  cashNeededScenario2       Float?
+
+  comments Comment[]
+}
+
+model Valuation {
+  id             String   @id @default(cuid())
+  title          String
+  address        String?
+  city           String?
+  targetAreaM2   Float?
+  buildingYear   Int?
+  floor          Int?
+  hasElevator    Boolean  @default(false)
+  notes          String?  @db.Text
+
+  createdById String
+  createdBy   User   @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Metrics
+  averagePricePerM2Raw       Float?
+  averagePricePerM2Adjusted  Float?
+  recommendedPricePerM2      Float?
+  idealistaPricePerM2        Float?
+  casafariPricePerM2         Float?
+  confidencialPricePerM2     Float?
+  consultantPricePerM2       Float?
+  estimatedValueLow          Float?
+  estimatedValueBase         Float?
+  estimatedValueHigh         Float?
+
+  comparables Comparable[]
+  comments    Comment[]
+}
+
+model Comparable {
+  id          String  @id @default(cuid())
+  valuationId String
+  valuation   Valuation @relation(fields: [valuationId], references: [id], onDelete: Cascade)
+
+  askingPrice  Float?
+  areaM2       Float?
+  pricePerM2   Float?
+  link         String?
+  notes        String?  @db.Text
+
+  // Adjustments
+  adjNegotiation Float?
+  adjArea        Float?
+  adjLocation    Float?
+  adjAge         Float?
+  adjCondition   Float?
+  adjOther       Float?
+  totalAdjustment Float?
+  adjustedPricePerM2 Float?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  dealId    String?
+  deal      Deal?    @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  valuationId String?
+  valuation   Valuation? @relation(fields: [valuationId], references: [id], onDelete: Cascade)
+
+  authorId  String
+  author    User     @relation(fields: [authorId], references: [id])
+
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model Settings {
+  id String @id @default(cuid())
+
+  // Global defaults
+  defaultImtRate         Float @default(0.0)
+  defaultIsRate          Float @default(0.008)
+  defaultEscrituraFee    Float @default(500.0)
+  defaultRegistosFee     Float @default(225.0)
+  defaultCpcvCompraFee   Float @default(100.0)
+  defaultCpcvVendaFee    Float @default(100.0)
+
+  defaultAgencyCommissionRate Float @default(0.03)
+  defaultHoldingMonths        Float @default(6.0)
+
+  defaultLoanTermYears        Float @default(40.0)
+  defaultInterestRate         Float @default(0.04)
+  defaultCommissionDossier    Float @default(300.0)
+  defaultCommissionAvaliacao  Float @default(250.0)
+  defaultCommissionFormalizacao Float @default(700.0)
+  defaultStampDutyRate        Float @default(0.006)
+  defaultMortgageRegistry     Float @default(250.0)
+
+  defaultInsurancePerMonth    Float @default(30.0)
+  defaultCondoPerMonth        Float @default(30.0)
+  defaultElectricityPerMonth  Float @default(40.0)
+  defaultWaterPerMonth        Float @default(40.0)
+
+  defaultIrcRate              Float @default(0.20)
+  defaultIrsRate              Float @default(0.48)
+
+  defaultEarlyRepaymentPenalty Float @default(0.005)
+
+  updatedAt DateTime @updatedAt
+}

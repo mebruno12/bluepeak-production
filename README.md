@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BluePeak Estate & Investments
 
-## Getting Started
+Internal web application for analyzing Portuguese fix & flip deals and property valuations.
 
-First, run the development server:
+## Quick Start
 
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Database
+Edit `.env` and set your PostgreSQL connection string:
+```env
+DATABASE_URL="postgresql://user:password@localhost:5432/bluepeak_db"
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Create Database
+```bash
+createdb bluepeak_db
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Run Migrations
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
 
-## Learn More
+### 5. Seed Database (Optional)
+```bash
+npm run seed
+```
 
-To learn more about Next.js, take a look at the following resources:
+This creates:
+- Admin: `admin@bluepeak.pt` / `admin123`
+- Analyst: `analyst@bluepeak.pt` / `analyst123`
+- Sample deal and valuation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 6. Start Development Server
+```bash
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open [http://localhost:3000](http://localhost:3000)
 
-## Deploy on Vercel
+## Features
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+✅ **Fix & Flip Analyzer**
+- Two scenario analysis
+- Acquisition costs (IMT, IS, fees)
+- Purchase & works financing
+- Holding costs
+- Sale costs & penalties
+- ROI calculations
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+✅ **Property Valuations**
+- Comparable properties analysis
+- Automatic adjustments
+- Price per m² calculations
+- Market benchmarks
+- Estimated value ranges
+
+✅ **User Management**
+- Email/password authentication
+- Role-based access (Analyst, Partner, Admin)
+
+✅ **Dashboard**
+- All deals and valuations in one view
+- Filters and search
+- Status tracking
+
+✅ **PDF Export**
+- Professional reports for deals and valuations
+
+✅ **Settings**
+- Customizable default values
+
+## Tech Stack
+
+- Next.js 15 (App Router)
+- TypeScript
+- Tailwind CSS
+- PostgreSQL + Prisma
+- JWT Authentication
+
+## 📚 Documentation
+
+### Local Development
+- **[SETUP.md](./SETUP.md)** - Comprehensive local setup, development, and troubleshooting guide
+
+### Production Deployment
+- **[QUICK-DEPLOY.md](./QUICK-DEPLOY.md)** ⚡ - 15-minute fast track deployment (Supabase + Vercel)
+- **[DEPLOYMENT.md](./DEPLOYMENT.md)** 📖 - Detailed deployment guide with troubleshooting
+- **[PRE-DEPLOY-CHECKLIST.md](./PRE-DEPLOY-CHECKLIST.md)** ✅ - Pre-deployment verification checklist
+
+### Deployment Target
+This app is configured to deploy at: `bluepeak.pt/calculadora-investimento-imobiliario`
+
+Or as a subdomain: `calculadora.bluepeak.pt` (recommended)
+
+## Branding
+
+Colors:
+- Light Blue: `#0B8BEC`
+- Dark Blue: `#131836`
+
+Replace `/public/bluepeak-logo.svg` with your actual logo.
+
+---
+
+**BluePeak Estate & Investments** - Real Estate Analysis Platform
