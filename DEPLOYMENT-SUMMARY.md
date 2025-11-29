@@ -111,9 +111,11 @@ Make sure you have:
 Before deploying, you'll need:
 
 ### From Supabase:
-- [ ] `DATABASE_URL` (Transaction pooling connection string)
-- [ ] `DIRECT_URL` (Direct connection string)
+- [ ] `DATABASE_URL` (Transaction mode - Port 6543)
+- [ ] `DIRECT_URL` (Session mode - Port 5432)
 - [ ] Database password (save securely!)
+
+**See**: [SUPABASE-SETUP.md](./SUPABASE-SETUP.md) for detailed instructions
 
 ### Generate Locally:
 - [ ] `JWT_SECRET` - Run: `openssl rand -base64 32`

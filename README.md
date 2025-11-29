@@ -88,10 +88,14 @@ Open [http://localhost:3000](http://localhost:3000)
 ### Local Development
 - **[SETUP.md](./SETUP.md)** - Comprehensive local setup, development, and troubleshooting guide
 
+### Database Setup
+- **[SUPABASE-SETUP.md](./SUPABASE-SETUP.md)** 🗄️ - Supabase PostgreSQL setup guide (updated for 2024)
+
 ### Production Deployment
 - **[QUICK-DEPLOY.md](./QUICK-DEPLOY.md)** ⚡ - 15-minute fast track deployment (Supabase + Vercel)
 - **[DEPLOYMENT.md](./DEPLOYMENT.md)** 📖 - Detailed deployment guide with troubleshooting
 - **[PRE-DEPLOY-CHECKLIST.md](./PRE-DEPLOY-CHECKLIST.md)** ✅ - Pre-deployment verification checklist
+- **[DEPLOYMENT-SUMMARY.md](./DEPLOYMENT-SUMMARY.md)** 📊 - Configuration overview
 
 ### Deployment Target
 This app is configured to deploy at: `bluepeak.pt/calculadora-investimento-imobiliario`

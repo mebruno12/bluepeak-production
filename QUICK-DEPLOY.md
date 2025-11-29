@@ -10,18 +10,26 @@ Fast track deployment guide for BluePeak to Vercel + Supabase.
 
 1. **Create project**: [supabase.com/dashboard](https://supabase.com/dashboard) → New Project
    - Name: `bluepeak-production`
-   - Password: **Save this!**
-   - Region: `Europe West (Frankfurt)`
+   - Password: Click "Generate" and **SAVE IT!**
+   - Region: `Europe West (Ireland)` or `Europe Central (Frankfurt)`
 
-2. **Get connection strings**: Settings → Database → Connection String
-   - Copy **"Transaction"** pooling URI → This is `DATABASE_URL`
-   - Copy **"Direct"** connection URI → This is `DIRECT_URL`
+2. **Get PostgreSQL connection strings**:
+   - Go to **Project Settings** (gear icon) → **Database**
+   - Scroll to **Connection string** section
 
-   Example:
+   **For DATABASE_URL**: Select **Transaction** tab (Port 6543)
    ```
-   DATABASE_URL="postgresql://postgres.abc123:PASSWORD@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
-   DIRECT_URL="postgresql://postgres.abc123:PASSWORD@db.abc123.supabase.co:5432/postgres"
+   postgresql://postgres.xxxxx:[PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true
    ```
+
+   **For DIRECT_URL**: Select **Session** tab (Port 5432)
+   ```
+   postgresql://postgres.xxxxx:[PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:5432/postgres
+   ```
+
+   Replace `[PASSWORD]` with your database password.
+
+   **Need detailed help?** See [SUPABASE-SETUP.md](./SUPABASE-SETUP.md)
 
 ---
 

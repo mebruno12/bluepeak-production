@@ -15,50 +15,46 @@ Complete guide to deploy BluePeak to **bluepeak.pt/calculadora-investimento-imob
 
 ## 🗄️ Part 1: Supabase Database Setup
 
-### Step 1: Create Supabase Project
+**Detailed setup guide**: See **[SUPABASE-SETUP.md](./SUPABASE-SETUP.md)** for comprehensive instructions with screenshots and troubleshooting.
 
-1. Go to [supabase.com](https://supabase.com) and sign in
-2. Click **"New Project"**
-3. Fill in the details:
-   - **Name**: `bluepeak-production`
-   - **Database Password**: Generate a strong password and **SAVE IT SECURELY**
-   - **Region**: Choose closest to your users (e.g., `Europe West (Frankfurt)`)
-4. Click **"Create new project"**
-5. Wait 2-3 minutes for the project to be created
+### Quick Setup
 
-### Step 2: Get Database Connection Strings
+1. **Create Supabase Project**:
+   - Go to [supabase.com/dashboard](https://supabase.com/dashboard)
+   - Click "New Project"
+   - Name: `bluepeak-production`
+   - Generate and save password securely
+   - Region: Europe West (Ireland) or Europe Central (Frankfurt)
+   - Wait 2-3 minutes
 
-Once your project is ready:
+2. **Get PostgreSQL Connection Strings**:
+   - Go to **Project Settings** → **Database**
+   - Find **Connection string** section
 
-1. Go to **Settings** → **Database** in the left sidebar
-2. Scroll down to **Connection string** section
-3. **Copy the Connection Pooling URI** (Transaction mode):
+   **DATABASE_URL** (Transaction mode - Port 6543):
    ```
-   Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true
+   postgresql://postgres.xxxxx:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:6543/postgres?pgbouncer=true
    ```
-   - Replace `[PASSWORD]` with your database password
-   - This is your `DATABASE_URL`
 
-4. **Copy the Direct Connection URI**:
+   **DIRECT_URL** (Session mode - Port 5432):
    ```
-   Format: postgresql://postgres.[PROJECT-REF]:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres
+   postgresql://postgres.xxxxx:[PASSWORD]@aws-0-[REGION].pooler.supabase.com:5432/postgres
    ```
-   - Replace `[PASSWORD]` with your database password
-   - This is your `DIRECT_URL` (used for migrations)
 
-### Step 3: Test Local Connection (Optional)
+   Replace `[PASSWORD]` with your actual database password.
 
-Update your local `.env` file:
+3. **Test Connection** (Optional):
 
-```env
-DATABASE_URL="postgresql://postgres.xxxxx:[PASSWORD]@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true"
-DIRECT_URL="postgresql://postgres.xxxxx:[PASSWORD]@db.xxxxx.supabase.co:5432/postgres"
-```
+   Update local `.env`:
+   ```env
+   DATABASE_URL="your-transaction-mode-string"
+   DIRECT_URL="your-session-mode-string"
+   ```
 
-Test the connection:
-```bash
-npx prisma db push
-```
+   Test:
+   ```bash
+   npx prisma db push
+   ```
 
 ---
 
